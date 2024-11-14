@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Football Tournament</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Football Tournament</h1>
+  </header>
+
+  <main>
+    <section id="group-stage">
+      <h2>Group Stage</h2>
+      <div id="group-a" class="group">
+        <h3>Group A</h3>
+        <!-- Group A teams and match results -->
+      </div>
+
+      <div id="group-b" class="group">
+        <h3>Group B</h3>
+        <!-- Group B teams and match results -->
+      </div>
+    </section>
+
+    <section id="knockout-stage" class="hidden">
+      <h2>Knockout Stage</h2>
+      <div id="semi-finals" class="bracket">
+        <h3>Semi Finals</h3>
+        <!-- Semi-final matchups -->
+      </div>
+
+      <div id="final" class="bracket">
+        <h3>Final</h3>
+        <!-- Final match -->
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Football Tournament</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
+Step 2: CSS Styling
+css
+Copy code
+/* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+main {
+  padding: 20px;
+}
+
+.group {
+  margin-bottom: 20px;
+}
+
+.group h3 {
+  text-decoration: underline;
+}
+
+.group table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.group table, th, td {
+  border: 1px solid #ddd;
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+}
+
+.bracket {
+  display: flex;
+  justify-content: space-around;
+}
+
+.hidden {
+  display: none;
+}
+
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #333;
+  color: white;
+}
+Step 3: JavaScript for Tournament Logic
+javascript
+Copy code
+// app.js
+
+let groupA = [
+  { name: 'Team A1', points: 0, goalsFor: 0, goalsAgainst: 0, goalDifference: 0 },
+  { name: 'Team A2', points:  goalsAgainst: 0, goalDifference: 0 },
+  { name: 'Team A3', points: 0, goalsFor: 0, goalsAgainst: 0, goalDifference: 0 },
+  { name: 'Team A4', points: 0, goalsFor: 0, goalsAgainst: 0, goalDifference: 0 }
+];
+
+let groupB = [
+  { name: 'Team B1', points: 0, goalsFor: 0, goalsAgainst: 0, goalDifference: 0 },
+  { name: 'Team B2', points: 0, goalsFor: 0, goalsAgainst: 0, goalDifference: 0 },
+  { name: 'Team B3', points: 0, goalsFor: 0, goalsAgainst: 0, goalDifference: 0 },
+  { name: 'Team B4', points: 0, goalsFor: 0, goalsAgainst: 0, goalDifference: 0 }
+];
+
+// Function to update table display for a group
+function updateGroupTable(group, groupElement) {
+  let tableHTML = `
+    <table>
+      <thead>
+        <tr>
+          <th>Team</th>
+          <th>Points</th>
+          <th>Goals For</th>
+          <th>Goals Against</th>
+          <th>Goal Difference</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+  
+  group.forEach(team => {
+    tableHTML += `
+      <tr>
+        <td>${team.name}</td>
+        <td>${team.points}</td>
+        <td>${team.goalsFor}</td>
+        <td>${team.goalsAgainst}</td>
+        <td>${team.goalDifference}</td>
+      </tr>
+    `;
+  });
+
+  tableHTML += '</tbody></table>';
+  groupElement.innerHTML = tableHTML;
+}
+
+// Function to handle match results input
+function handleMatchResult(team1, team2, score1, score2) {
+  team1.goalsFor += score1;
+  team1.goalsAgainst += score2;
+  team2.goalsFor += score2;
+  team2.goalsAgainst += score1;
+
+  if (score1 > score2) {
+    team1.points += 3;
+  } else if (score2 > score1) {
+    team2.points += 3;
+  } else {
+    team1.points += 1;
+    team2.points += 1;
+  }
+
+  // Update goal difference
+  team1.goalDifference = team1.goalsFor - team1.goalsAgainst;
+  team2.goalDifference = team2.goalsFor - team2.goalsAgainst;
+
+  // Re-render group tables
+  updateGroupTable(groupA, document.getElementById('group-a'));
+  updateGroupTable(groupB, document.getElementById('group-b'));
+}
+
+// Initialize group tables
+updateGroupTable(groupA, document.getElementById('group-a'));
+updateGroupTable(groupB, document scores (e.g., handleMatchResult(groupA[0], groupA[1], 2, 1))
